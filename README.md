@@ -1,6 +1,6 @@
-# eta-einvoice-validator
+# einvoice-validator
 
-[![CI](https://github.com/islamelsabahy/eta-einvoice-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/islamelsabahy/eta-einvoice-validator/actions/workflows/ci.yml)
+[![CI](https://github.com/islamelsabahy/einvoice-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/islamelsabahy/einvoice-validator/actions/workflows/ci.yml)
 
 **EN** — An offline pre-flight checker for Egyptian Tax Authority (ETA) e-invoice JSON (v1.0 document layout). It catches the mistakes that cause rejections *before* you sign and submit: missing fields, wrong enums, bad date format, and arithmetic that does not add up (line totals, VAT, header totals). Python 3.9+, standard library only, messages in English and Arabic.
 
