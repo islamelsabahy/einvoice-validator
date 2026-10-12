@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from unittest import mock
 
-from etavalidator import validate_document, validate_file
+from etavalidator import validate_data, validate_document, validate_file
 
 HERE = os.path.dirname(__file__)
 SAMPLES = os.path.join(HERE, "..", "sample-data")
@@ -48,6 +48,10 @@ class StructureTests(unittest.TestCase):
     def test_future_date(self):
         self.doc["dateTimeIssued"] = "2030-01-01T00:00:00Z"
         self.assertIn("FUTURE_DATE", codes(self.doc, "error"))
+
+    def test_impossible_date_is_an_error_not_a_crash(self):
+        self.doc["dateTimeIssued"] = "2026-13-45T00:00:00Z"
+        self.assertEqual(codes(self.doc, "error"), ["BAD_DATETIME"])
 
     def test_no_lines(self):
         self.doc["invoiceLines"] = []
@@ -146,6 +150,33 @@ class ArithmeticTests(unittest.TestCase):
         self.assertEqual(codes(self.doc, "error"), [])
 
 
+class WebDataTests(unittest.TestCase):
+    """docs/messages.js and tests/vectors.json are generated; fail if they drift from the Python code."""
+
+    def test_generated_web_files_are_current(self):
+        import importlib.util
+        path = os.path.join(HERE, "..", "scripts", "build_web_data.py")
+        spec = importlib.util.spec_from_file_location("build_web_data", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        self.assertEqual(mod.stale(), [], "run: python scripts/build_web_data.py")
+
+
+class RobustnessTests(unittest.TestCase):
+    def test_malformed_shapes_never_raise(self):
+        base = load("valid_invoice.json")
+        for key, bad in (("taxTotals", 5), ("taxTotals", True), ("invoiceLines", "x"),
+                         ("issuer", []), ("receiver", 3), ("references", {})):
+            doc = copy.deepcopy(base)
+            doc[key] = bad
+            validate_document(doc, now=NOW)  # must not raise
+
+    def test_unhashable_tax_type_does_not_raise(self):
+        doc = load("valid_invoice.json")
+        doc["invoiceLines"][0]["taxableItems"][0]["taxType"] = []
+        validate_document(doc, now=NOW)
+
+
 class FileTests(unittest.TestCase):
     def write(self, payload):
         fh = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
@@ -164,6 +195,14 @@ class FileTests(unittest.TestCase):
         d = load("valid_invoice.json")
         path = self.write({"documents": [d, copy.deepcopy(d)]})
         self.assertIn("DUP_INTERNAL_ID", [i.code for i in validate_file(path, now=NOW)])
+
+    def test_missing_ids_are_not_reported_as_duplicates(self):
+        a, b = load("valid_invoice.json"), load("valid_invoice.json")
+        del a["internalID"], b["internalID"]
+        self.assertNotIn("DUP_INTERNAL_ID", [i.code for i in validate_data([a, b], now=NOW)])
+
+    def test_scalar_input_does_not_crash(self):
+        self.assertEqual([i.code for i in validate_data(5, now=NOW)], ["MISSING"])
 
     def test_batch_paths_are_prefixed(self):
         d = load("valid_invoice.json")

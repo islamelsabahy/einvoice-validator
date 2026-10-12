@@ -10,6 +10,10 @@
 >
 > **أداة غير رسمية.** بتفحص الهيكل والحسابات بس، ومش بتعرف قوائم الأكواد الحية ولا بتوقّع ولا بتتصل بالمصلحة. نجاح الفحص هنا مش ضمان قبول الفاتورة.
 
+## Try it in the browser / جرّبها من المتصفح
+
+**https://islamelsabahy.github.io/einvoice-validator/** (needs GitHub Pages enabled on `/docs`). Same rules as the CLI, runs entirely client-side: nothing is uploaded. / نفس القواعد بتاعة الأداة، وبتشتغل بالكامل في المتصفح من غير رفع أي بيانات.
+
 ## Use / الاستخدام
 
 ```bash
@@ -46,8 +50,12 @@ Rounding differences up to `--tolerance` (default 0.01 EGP) are accepted.
 ## Tests
 
 ```bash
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests -v   # Python reference
+node tests/test_validator.js              # browser port must match it on tests/vectors.json
+python scripts/build_web_data.py          # regenerate docs/messages.js, docs/samples.js, tests/vectors.json
 ```
+
+`docs/validator.js` is a port of `etavalidator/validator.py`; the Python code is the reference. If you change a rule, change both, then regenerate. / لو غيّرت أي قاعدة غيّرها في الاتنين وبعدين شغّل سكريبت التوليد.
 
 ## Related
 

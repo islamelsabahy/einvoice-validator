@@ -110,7 +110,7 @@ def _check_party(ctx: _Ctx, party: Any, path: str, total: Optional[Decimal], is_
 
 
 def _check_line(ctx: _Ctx, line: Any, i: int, tax_sums: dict) -> Optional[dict]:
-    path = f"invoiceLines[{i}]"
+    path = f"$.invoiceLines[{i}]"
     n = i + 1
     if not isinstance(line, dict):
         ctx.add("error", "MISSING", path, path)
@@ -205,9 +205,13 @@ def validate_document(doc: Any, *, tolerance: str = "0.01", now: Optional[dateti
         if not DT_RE.match(stamp):
             ctx.add("error", "BAD_DATETIME", "$.dateTimeIssued", "dateTimeIssued", stamp)
         else:
-            issued = datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-            if issued > ctx.now:
-                ctx.add("error", "FUTURE_DATE", "$.dateTimeIssued")
+            try:
+                issued = datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            except ValueError:  # matches the shape but is not a real date, e.g. month 13
+                ctx.add("error", "BAD_DATETIME", "$.dateTimeIssued", "dateTimeIssued", stamp)
+            else:
+                if issued > ctx.now:
+                    ctx.add("error", "FUTURE_DATE", "$.dateTimeIssued")
 
     total_amount = ctx.number(doc, "totalAmount", "$")
     _check_party(ctx, doc.get("issuer"), "$.issuer", None, False)
@@ -242,9 +246,10 @@ def validate_document(doc: Any, *, tolerance: str = "0.01", now: Optional[dateti
         ctx.add("error", "HDR_DISCOUNT", "$.totalDiscountAmount", total_disc, sums["disc"])
 
     declared = {}
-    for t in doc.get("taxTotals") or []:
+    tax_totals = doc.get("taxTotals")
+    for t in tax_totals if isinstance(tax_totals, list) else []:
         if isinstance(t, dict) and t.get("taxType"):
-            declared[t["taxType"]] = _num(t.get("amount"))
+            declared[str(t["taxType"])] = _num(t.get("amount"))
     for ttype, expected in tax_sums.items():
         if ttype not in declared:
             ctx.add("error", "HDR_TAX_MISSING", "$.taxTotals", ttype)
@@ -258,15 +263,13 @@ def validate_document(doc: Any, *, tolerance: str = "0.01", now: Optional[dateti
     return ctx.issues
 
 
-def validate_file(path: str, **kw) -> List[Issue]:
-    """Validate a JSON file holding one document, a list, or {"documents": [...]}."""
-    try:
-        with open(path, encoding="utf-8") as fh:
-            data = json.load(fh)
-    except (OSError, ValueError) as exc:
-        return [Issue("error", "JSON_INVALID", path, (str(exc),))]
-    docs: Iterable = data.get("documents", [data]) if isinstance(data, dict) else data
-    docs = list(docs)
+def validate_data(data: Any, **kw) -> List[Issue]:
+    """Validate parsed JSON: one document, a list of documents, or {"documents": [...]}."""
+    if isinstance(data, dict):
+        docs = data.get("documents", [data])
+    else:
+        docs = data
+    docs = list(docs) if isinstance(docs, list) else [docs]
     issues: List[Issue] = []
     seen = set()
     for idx, doc in enumerate(docs):
@@ -274,7 +277,18 @@ def validate_file(path: str, **kw) -> List[Issue]:
         for it in validate_document(doc, **kw):
             issues.append(Issue(it.level, it.code, prefix + it.path, it.args))
         iid = doc.get("internalID") if isinstance(doc, dict) else None
-        if iid in seen:
-            issues.append(Issue("error", "DUP_INTERNAL_ID", f"{prefix}$.internalID", (iid,)))
-        seen.add(iid)
+        if isinstance(iid, (str, int)) and not isinstance(iid, bool):
+            if iid in seen:
+                issues.append(Issue("error", "DUP_INTERNAL_ID", f"{prefix}$.internalID", (iid,)))
+            seen.add(iid)
     return issues
+
+
+def validate_file(path: str, **kw) -> List[Issue]:
+    """Validate a JSON file holding one document, a list, or {"documents": [...]}."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError) as exc:
+        return [Issue("error", "JSON_INVALID", path, (str(exc),))]
+    return validate_data(data, **kw)

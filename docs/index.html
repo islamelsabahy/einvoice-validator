@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETA E-Invoice Validator</title>
+<meta name="description" content="Offline pre-flight check for Egyptian Tax Authority e-invoice JSON. Runs entirely in your browser.">
+<style>
+  :root { --bg:#f7f8fa; --card:#fff; --ink:#1b2430; --muted:#5b6675; --line:#d9dee6; --accent:#0b6bcb; --ok:#127a3d; --err:#c62828; --warn:#a15c00; --okbg:#e6f4ea; --errbg:#fdecea; --warnbg:#fff4e0; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#10151c; --card:#18202a; --ink:#e8edf3; --muted:#9aa7b6; --line:#2a3644; --accent:#58a6ff; --ok:#4cc38a; --err:#ff8a80; --warn:#ffb74d; --okbg:#12301f; --errbg:#3a1a18; --warnbg:#3a2a10; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, "Segoe UI", Tahoma, sans-serif; }
+  main { max-width:880px; margin:0 auto; padding:20px 16px 48px; }
+  header { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  h1 { font-size:1.4rem; margin:.2em 0; }
+  h2 { font-size:1.05rem; margin:0 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  .note { color:var(--muted); font-size:.85rem; }
+  .banner { border:1px solid var(--warn); background:var(--warnbg); border-radius:8px; padding:10px 12px; font-size:.9rem; }
+  textarea { width:100%; min-height:240px; font:13px/1.45 ui-monospace, Consolas, monospace; direction:ltr; text-align:left; padding:10px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--ink); resize:vertical; }
+  textarea.drag { outline:2px dashed var(--accent); }
+  input, button, label.btn { font:inherit; padding:8px 12px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--ink); min-height:40px; }
+  button, label.btn { cursor:pointer; background:var(--accent); color:#fff; border-color:var(--accent); display:inline-flex; align-items:center; }
+  button.secondary, label.btn.secondary { background:transparent; color:var(--accent); }
+  .bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px; }
+  .opt { display:flex; align-items:center; gap:6px; font-size:.9rem; color:var(--muted); }
+  .opt input[type=number] { width:90px; direction:ltr; }
+  .opt input[type=checkbox] { min-height:0; width:18px; height:18px; }
+  #sum { border-radius:8px; padding:10px 14px; font-weight:600; border:1px solid var(--line); }
+  #sum.ok { background:var(--okbg); color:var(--ok); border-color:var(--ok); }
+  #sum.fail { background:var(--errbg); color:var(--err); border-color:var(--err); }
+  ul.issues { list-style:none; padding:0; margin:12px 0 0; }
+  ul.issues li { display:grid; grid-template-columns:auto 1fr; gap:4px 10px; padding:8px 0; border-bottom:1px solid var(--line); }
+  ul.issues li:last-child { border-bottom:0; }
+  .tag { font-size:.72rem; font-weight:700; text-transform:uppercase; border-radius:999px; padding:2px 8px; align-self:start; margin-top:3px; }
+  .tag.error { background:var(--errbg); color:var(--err); }
+  .tag.warning { background:var(--warnbg); color:var(--warn); }
+  .path { font:12.5px ui-monospace, Consolas, monospace; color:var(--muted); direction:ltr; unicode-bidi:isolate; display:inline-block; word-break:break-all; }
+  .msg { margin:0; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="t-title">ETA E-Invoice Validator</h1>
+    <button class="secondary" id="lang" type="button">العربية</button>
+  </header>
+  <p class="note" id="t-intro"></p>
+  <p class="banner" id="t-disc" role="note"></p>
+
+  <section class="card" aria-labelledby="t-in">
+    <h2 id="t-in"></h2>
+    <textarea id="src" spellcheck="false" aria-labelledby="t-in" placeholder='{ "documentType": "I", ... }'></textarea>
+    <div class="bar">
+      <label class="btn secondary" for="file" id="t-file"></label>
+      <input type="file" id="file" accept=".json,application/json" hidden>
+      <button class="secondary" id="s-valid" type="button"></button>
+      <button class="secondary" id="s-invalid" type="button"></button>
+      <span class="opt"><label for="tol" id="t-tol"></label><input id="tol" type="number" min="0" step="0.01" value="0.01"></span>
+      <span class="opt"><input id="strict" type="checkbox"><label for="strict" id="t-strict"></label></span>
+      <button id="run" type="button"></button>
+    </div>
+    <p class="note" id="t-privacy"></p>
+  </section>
+
+  <section class="card" aria-live="polite" id="results" hidden>
+    <div id="sum"></div>
+    <ul class="issues" id="list"></ul>
+    <div class="actions">
+      <button class="secondary" id="copy" type="button"></button>
+      <button class="secondary" id="dl" type="button"></button>
+    </div>
+  </section>
+
+  <p class="note" id="t-foot"></p>
+  <p class="note"><a href="https://github.com/islamelsabahy/einvoice-validator">GitHub</a> · MIT</p>
+</main>
+<script src="messages.js"></script>
+<script src="samples.js"></script>
+<script src="validator.js"></script>
+<script>
+(function () {
+  var T = {
+    en: { dir:"ltr", lang:"العربية", title:"ETA E-Invoice Validator",
+      intro:"Paste or load an Egyptian Tax Authority e-invoice JSON (v1.0 layout) and catch missing fields, wrong values and arithmetic mistakes before you sign and submit.",
+      disc:"Not an official tool. It checks structure and arithmetic only; it does not know ETA's live code lists, sign documents or call ETA. A document that passes here can still be rejected. Confirm with the official SDK.",
+      input:"Invoice JSON", file:"Open file…", sValid:"Load valid sample", sInvalid:"Load invalid sample", tol:"Tolerance (EGP)", strict:"Treat warnings as errors", run:"Validate",
+      privacy:"Everything runs in your browser. Nothing is uploaded or stored. Accepts one document, a list, or {\"documents\": [...]}.",
+      ok:"No findings", okW:"Passed with warnings", fail:"Failed", errs:"error(s)", warns:"warning(s)", error:"Error", warning:"Warning",
+      copy:"Copy report", copied:"Copied", dl:"Download .txt", empty:"Paste or load a JSON document first.",
+      foot:"All sample data is fictional. Never paste real tax ids you are not allowed to share." },
+    ar: { dir:"rtl", lang:"English", title:"فاحص الفاتورة الإلكترونية (ETA)",
+      intro:"الصق أو افتح ملف JSON للفاتورة الإلكترونية (مصلحة الضرائب المصرية، الإصدار 1.0) وهتعرف الحقول الناقصة والقيم الغلط وأخطاء الحسابات قبل التوقيع والإرسال.",
+      disc:"أداة غير رسمية. بتفحص الهيكل والحسابات بس، ومش بتعرف قوائم الأكواد الحية ولا بتوقّع ولا بتتصل بالمصلحة. نجاح الفحص هنا مش ضمان قبول الفاتورة، اتأكد من الـ SDK الرسمي.",
+      input:"ملف الفاتورة JSON", file:"افتح ملف…", sValid:"مثال سليم", sInvalid:"مثال فيه أخطاء", tol:"هامش التقريب (جنيه)", strict:"اعتبر التحذيرات أخطاء", run:"افحص",
+      privacy:"كل حاجة بتشتغل في المتصفح عندك. مفيش أي رفع أو تخزين. بيقبل مستند واحد أو قائمة أو {\"documents\": [...]}.",
+      ok:"مفيش ملاحظات", okW:"عدّى مع تحذيرات", fail:"فشل الفحص", errs:"خطأ", warns:"تحذير", error:"خطأ", warning:"تحذير",
+      copy:"انسخ التقرير", copied:"اتنسخ", dl:"نزّل .txt", empty:"الصق ملف JSON أو افتحه الأول.",
+      foot:"كل بيانات الأمثلة وهمية. ما تلصقش أرقام ضريبية حقيقية مش مسموح لك تشاركها." }
+  };
+  var lang = /^ar/i.test(navigator.language || "") ? "ar" : "en";
+  var last = null;
+  function $(id) { return document.getElementById(id); }
+
+  function levelWord(i) { return T[lang][i.level]; }
+
+  function reportText() {
+    if (!last) return "";
+    var L = T[lang], out = [$("sum").textContent, ""];
+    last.issues.forEach(function (i) {
+      out.push("[" + levelWord(i).toUpperCase() + "] " + i.path + ": " + EtaValidator.message(i, lang));
+    });
+    return out.join("\n");
+  }
+
+  // Values, field names and dates stay left-to-right inside Arabic sentences.
+  var LATIN = /[A-Za-z0-9][A-Za-z0-9_.\[\]$:\/-]*/g;
+  function bdi(text) { var b = document.createElement("bdi"); b.dir = "ltr"; b.textContent = text; return b; }
+  function fillMsg(el, issue) {
+    EtaValidator.messageParts(issue, lang).forEach(function (part) {
+      if (part.arg) { el.appendChild(bdi(part.text)); return; }
+      var last = 0, m; LATIN.lastIndex = 0;
+      while ((m = LATIN.exec(part.text))) {
+        if (m.index > last) el.appendChild(document.createTextNode(part.text.slice(last, m.index)));
+        el.appendChild(bdi(m[0])); last = LATIN.lastIndex;
+      }
+      if (last < part.text.length) el.appendChild(document.createTextNode(part.text.slice(last)));
+    });
+  }
+
+  function run() {
+    var L = T[lang], text = $("src").value;
+    if (!text.trim()) { last = null; $("results").hidden = false; $("sum").className = "fail"; $("sum").textContent = L.empty; $("list").innerHTML = ""; return; }
+    var issues = EtaValidator.validateText(text, { tolerance: $("tol").value || "0.01" });
+    last = { issues: issues };
+    var errs = issues.filter(function (i) { return i.level === "error"; }).length;
+    var warns = issues.length - errs;
+    var failed = errs > 0 || ($("strict").checked && warns > 0);
+    var head = failed ? L.fail : (warns ? L.okW : L.ok);
+    $("sum").className = failed ? "fail" : "ok";
+    $("sum").textContent = head + " — " + errs + " " + L.errs + (lang === "ar" ? "، " : ", ") + warns + " " + L.warns;
+    var ul = $("list"); ul.innerHTML = "";
+    issues.forEach(function (i) {
+      var li = document.createElement("li");
+      var tag = document.createElement("span"); tag.className = "tag " + i.level; tag.textContent = levelWord(i);
+      var body = document.createElement("div");
+      var msg = document.createElement("p"); msg.className = "msg"; msg.dir = "auto"; fillMsg(msg, i);
+      var path = document.createElement("span"); path.className = "path"; path.textContent = i.path;
+      body.appendChild(msg); body.appendChild(path);
+      li.appendChild(tag); li.appendChild(body); ul.appendChild(li);
+    });
+    $("results").hidden = false;
+  }
+
+  function applyLang() {
+    var L = T[lang];
+    document.documentElement.lang = lang; document.documentElement.dir = L.dir; document.title = L.title;
+    $("lang").textContent = L.lang; $("t-title").textContent = L.title; $("t-intro").textContent = L.intro; $("t-disc").textContent = L.disc;
+    $("t-in").textContent = L.input; $("t-file").textContent = L.file; $("s-valid").textContent = L.sValid; $("s-invalid").textContent = L.sInvalid;
+    $("t-tol").textContent = L.tol; $("t-strict").textContent = L.strict; $("run").textContent = L.run; $("t-privacy").textContent = L.privacy;
+    $("copy").textContent = L.copy; $("dl").textContent = L.dl; $("t-foot").textContent = L.foot;
+    if (last) run();
+  }
+
+  function load(obj) { $("src").value = JSON.stringify(obj, null, 2); run(); }
+  function readFile(f) {
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function () { $("src").value = String(r.result); run(); };
+    r.readAsText(f, "utf-8");
+  }
+
+  $("run").addEventListener("click", run);
+  $("s-valid").addEventListener("click", function () { load(ETA_SAMPLES.valid); });
+  $("s-invalid").addEventListener("click", function () { load(ETA_SAMPLES.invalid); });
+  $("file").addEventListener("change", function (e) { readFile(e.target.files[0]); e.target.value = ""; });
+  $("tol").addEventListener("input", function () { if (last) run(); });
+  $("strict").addEventListener("change", function () { if (last) run(); });
+  $("lang").addEventListener("click", function () { lang = lang === "en" ? "ar" : "en"; applyLang(); });
+  var ta = $("src");
+  ta.addEventListener("dragover", function (e) { e.preventDefault(); ta.classList.add("drag"); });
+  ta.addEventListener("dragleave", function () { ta.classList.remove("drag"); });
+  ta.addEventListener("drop", function (e) { e.preventDefault(); ta.classList.remove("drag"); readFile(e.dataTransfer.files[0]); });
+  $("copy").addEventListener("click", function () {
+    var t = reportText(), b = $("copy");
+    function done() { b.textContent = T[lang].copied; setTimeout(function () { b.textContent = T[lang].copy; }, 1500); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, function () {});
+  });
+  $("dl").addEventListener("click", function () {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["﻿" + reportText()], { type: "text/plain;charset=utf-8" }));
+    a.download = "einvoice-validation.txt"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  applyLang();
+})();
+</script>
+</body>
+</html>

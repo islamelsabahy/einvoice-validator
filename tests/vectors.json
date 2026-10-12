@@ -1,0 +1,5555 @@
+[
+ {
+  "name": "valid sample",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": []
+ },
+ {
+  "name": "invalid sample",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15 09:30",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0002",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10000
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16000
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_DATETIME",
+    "$.dateTimeIssued"
+   ],
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "missing internalID",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.internalID"
+   ]
+  ]
+ },
+ {
+  "name": "bad document type",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "X",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_ENUM",
+    "$.documentType"
+   ]
+  ]
+ },
+ {
+  "name": "future date",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2030-01-01T00:00:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "FUTURE_DATE",
+    "$.dateTimeIssued"
+   ]
+  ]
+ },
+ {
+  "name": "date wrong shape",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-01 10:00",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_DATETIME",
+    "$.dateTimeIssued"
+   ]
+  ]
+ },
+ {
+  "name": "impossible date",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-13-45T00:00:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_DATETIME",
+    "$.dateTimeIssued"
+   ]
+  ]
+ },
+ {
+  "name": "no lines",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "NO_LINES",
+    "$.invoiceLines"
+   ]
+  ]
+ },
+ {
+  "name": "issuer without branch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.issuer.address.branchID"
+   ]
+  ]
+ },
+ {
+  "name": "credit note without reference",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "C",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "warning",
+    "DOC_REF",
+    "$.references"
+   ]
+  ]
+ },
+ {
+  "name": "business receiver without id",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.receiver.id"
+   ]
+  ]
+ },
+ {
+  "name": "bad tax id shape",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "12345",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "warning",
+    "ID_FORMAT",
+    "$.issuer.id"
+   ]
+  ]
+ },
+ {
+  "name": "empty description",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "  ",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "EMPTY",
+    "$.invoiceLines[0].description"
+   ]
+  ]
+ },
+ {
+  "name": "bad item type",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "ZZZ",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_ENUM",
+    "$.invoiceLines[0].itemType"
+   ]
+  ]
+ },
+ {
+  "name": "string number not numeric",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": "abc",
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_NUMBER",
+    "$.invoiceLines[0].quantity"
+   ]
+  ]
+ },
+ {
+  "name": "negative quantity",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": -1,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "NEGATIVE",
+    "$.invoiceLines[0].quantity"
+   ],
+   [
+    "error",
+    "LINE_SALES_TOTAL",
+    "$.invoiceLines[0].salesTotal"
+   ]
+  ]
+ },
+ {
+  "name": "sales total mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 1,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_SALES_TOTAL",
+    "$.invoiceLines[0].salesTotal"
+   ],
+   [
+    "error",
+    "LINE_NET_TOTAL",
+    "$.invoiceLines[0].netTotal"
+   ],
+   [
+    "error",
+    "HDR_SALES",
+    "$.totalSalesAmount"
+   ]
+  ]
+ },
+ {
+  "name": "net total mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 1,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_NET_TOTAL",
+    "$.invoiceLines[0].netTotal"
+   ],
+   [
+    "error",
+    "LINE_TAX_AMOUNT",
+    "$.invoiceLines[0].taxableItems[0].amount"
+   ],
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_NET",
+    "$.netAmount"
+   ]
+  ]
+ },
+ {
+  "name": "vat amount mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_TAX_AMOUNT",
+    "$.invoiceLines[0].taxableItems[0].amount"
+   ],
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_TAX",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "line total mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 1
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "header sales mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 1,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_SALES",
+    "$.totalSalesAmount"
+   ]
+  ]
+ },
+ {
+  "name": "header net mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 1,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_NET",
+    "$.netAmount"
+   ]
+  ]
+ },
+ {
+  "name": "header discount mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 5,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_DISCOUNT",
+    "$.totalDiscountAmount"
+   ]
+  ]
+ },
+ {
+  "name": "header tax mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 1
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TAX",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "header tax type missing",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TAX_MISSING",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "header total mismatch",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 1
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "rounding within tolerance",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.145
+  },
+  "expected": []
+ },
+ {
+  "name": "rounding outside tolerance",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.64
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "rounding accepted with wider tolerance",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "1",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.64
+  },
+  "expected": []
+ },
+ {
+  "name": "foreign currency without rate",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "USD",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_CURRENCY",
+    "$.invoiceLines[0].unitValue"
+   ]
+  ]
+ },
+ {
+  "name": "foreign currency math",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "USD",
+      "amountEGP": 1000,
+      "amountSold": 10,
+      "currencyExchangeRate": 50
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_CURRENCY_MATH",
+    "$.invoiceLines[0].unitValue.amountEGP"
+   ]
+  ]
+ },
+ {
+  "name": "withholding tax added (inconsistent)",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      },
+      {
+       "taxType": "T4",
+       "subType": "W010",
+       "amount": 1,
+       "rate": 1
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_TAX_AMOUNT",
+    "$.invoiceLines[0].taxableItems[1].amount"
+   ],
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_TAX_MISSING",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "withholding tax is subtracted",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      },
+      {
+       "taxType": "T4",
+       "amount": 50.01,
+       "subType": "W010",
+       "rate": 1
+      }
+     ],
+     "total": 5651.13
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    },
+    {
+     "taxType": "T4",
+     "amount": 50.01
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16481.13
+  },
+  "expected": []
+ },
+ {
+  "name": "items discount reduces total",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5691.14,
+     "itemsDiscount": 10
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16521.14
+  },
+  "expected": []
+ },
+ {
+  "name": "extra discount consistent",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 100,
+   "totalAmount": 16431.14
+  },
+  "expected": []
+ },
+ {
+  "name": "foreign currency consistent",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "USD",
+      "amountEGP": 1000,
+      "amountSold": 20,
+      "currencyExchangeRate": 50
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": []
+ },
+ {
+  "name": "items discount",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830,
+     "itemsDiscount": 3
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ]
+  ]
+ },
+ {
+  "name": "extra discount",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 7,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "anonymous person receiver",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "P",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": []
+ },
+ {
+  "name": "person receiver above 50k",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "P",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 60000
+  },
+  "expected": [
+   [
+    "warning",
+    "B2C_NEEDS_ID",
+    "$.receiver.id"
+   ],
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "taxTotals is not a list",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": 5,
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TAX_MISSING",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "tax type is a list",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": [],
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "HDR_TAX_MISSING",
+    "$.taxTotals"
+   ],
+   [
+    "error",
+    "HDR_TAX",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "item type is an empty list",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": [],
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "BAD_ENUM",
+    "$.invoiceLines[0].itemType"
+   ]
+  ]
+ },
+ {
+  "name": "missing address",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)"
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 1330,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.receiver.address"
+   ]
+  ]
+ },
+ {
+  "name": "line is not an object",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    5
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.invoiceLines[0]"
+   ],
+   [
+    "error",
+    "HDR_SALES",
+    "$.totalSalesAmount"
+   ],
+   [
+    "error",
+    "HDR_NET",
+    "$.netAmount"
+   ],
+   [
+    "error",
+    "HDR_DISCOUNT",
+    "$.totalDiscountAmount"
+   ],
+   [
+    "error",
+    "HDR_TOTAL",
+    "$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "tax items missing",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10",
+     "branchID": "0"
+    }
+   },
+   "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+     "country": "EG",
+     "governate": "Cairo",
+     "regionCity": "Nasr City",
+     "street": "Example St",
+     "buildingNumber": "10"
+    }
+   },
+   "documentType": "I",
+   "documentTypeVersion": "1.0",
+   "dateTimeIssued": "2026-01-15T09:30:00Z",
+   "taxpayerActivityCode": "4101",
+   "internalID": "INV-2026-0001",
+   "invoiceLines": [
+    {
+     "description": "Service fee",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-1",
+     "unitType": "EA",
+     "quantity": 10,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 1000
+     },
+     "salesTotal": 10000,
+     "discount": {
+      "rate": 5,
+      "amount": 500
+     },
+     "netTotal": 9500,
+     "total": 10830
+    },
+    {
+     "description": "Maintenance",
+     "itemType": "EGS",
+     "itemCode": "EG-123456789-2",
+     "unitType": "EA",
+     "quantity": 2,
+     "unitValue": {
+      "currencySold": "EGP",
+      "amountEGP": 2500.5
+     },
+     "salesTotal": 5001,
+     "netTotal": 5001,
+     "taxableItems": [
+      {
+       "taxType": "T1",
+       "amount": 700.14,
+       "subType": "V009",
+       "rate": 14
+      }
+     ],
+     "total": 5701.14
+    }
+   ],
+   "totalDiscountAmount": 500,
+   "totalSalesAmount": 15001,
+   "netAmount": 14501,
+   "taxTotals": [
+    {
+     "taxType": "T1",
+     "amount": 2030.14
+    }
+   ],
+   "extraDiscountAmount": 0,
+   "totalAmount": 16531.14
+  },
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.invoiceLines[0].taxableItems"
+   ],
+   [
+    "error",
+    "LINE_TOTAL",
+    "$.invoiceLines[0].total"
+   ],
+   [
+    "error",
+    "HDR_TAX",
+    "$.taxTotals"
+   ]
+  ]
+ },
+ {
+  "name": "batch with duplicate id",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": [
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "internalID": "INV-2026-0001",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 16531.14
+   },
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "internalID": "INV-2026-0001",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 16531.14
+   }
+  ],
+  "expected": [
+   [
+    "error",
+    "DUP_INTERNAL_ID",
+    "[1]$.internalID"
+   ]
+  ]
+ },
+ {
+  "name": "batch paths prefixed",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": [
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "internalID": "INV-2026-0001",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 16531.14
+   },
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "internalID": "X",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 1
+   }
+  ],
+  "expected": [
+   [
+    "error",
+    "HDR_TOTAL",
+    "[1]$.totalAmount"
+   ]
+  ]
+ },
+ {
+  "name": "documents wrapper",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {
+   "documents": [
+    {
+     "issuer": {
+      "type": "B",
+      "id": "123456789",
+      "name": "Example Developments (fictional)",
+      "address": {
+       "country": "EG",
+       "governate": "Cairo",
+       "regionCity": "Nasr City",
+       "street": "Example St",
+       "buildingNumber": "10",
+       "branchID": "0"
+      }
+     },
+     "receiver": {
+      "type": "B",
+      "id": "987654321",
+      "name": "Sample Buyer Co (fictional)",
+      "address": {
+       "country": "EG",
+       "governate": "Cairo",
+       "regionCity": "Nasr City",
+       "street": "Example St",
+       "buildingNumber": "10"
+      }
+     },
+     "documentType": "I",
+     "documentTypeVersion": "1.0",
+     "dateTimeIssued": "2026-01-15T09:30:00Z",
+     "taxpayerActivityCode": "4101",
+     "internalID": "INV-2026-0001",
+     "invoiceLines": [
+      {
+       "description": "Service fee",
+       "itemType": "EGS",
+       "itemCode": "EG-123456789-1",
+       "unitType": "EA",
+       "quantity": 10,
+       "unitValue": {
+        "currencySold": "EGP",
+        "amountEGP": 1000
+       },
+       "salesTotal": 10000,
+       "discount": {
+        "rate": 5,
+        "amount": 500
+       },
+       "netTotal": 9500,
+       "taxableItems": [
+        {
+         "taxType": "T1",
+         "amount": 1330,
+         "subType": "V009",
+         "rate": 14
+        }
+       ],
+       "total": 10830
+      },
+      {
+       "description": "Maintenance",
+       "itemType": "EGS",
+       "itemCode": "EG-123456789-2",
+       "unitType": "EA",
+       "quantity": 2,
+       "unitValue": {
+        "currencySold": "EGP",
+        "amountEGP": 2500.5
+       },
+       "salesTotal": 5001,
+       "netTotal": 5001,
+       "taxableItems": [
+        {
+         "taxType": "T1",
+         "amount": 700.14,
+         "subType": "V009",
+         "rate": 14
+        }
+       ],
+       "total": 5701.14
+      }
+     ],
+     "totalDiscountAmount": 500,
+     "totalSalesAmount": 15001,
+     "netAmount": 14501,
+     "taxTotals": [
+      {
+       "taxType": "T1",
+       "amount": 2030.14
+      }
+     ],
+     "extraDiscountAmount": 0,
+     "totalAmount": 16531.14
+    }
+   ]
+  },
+  "expected": []
+ },
+ {
+  "name": "batch without ids",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": [
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 16531.14
+   },
+   {
+    "issuer": {
+     "type": "B",
+     "id": "123456789",
+     "name": "Example Developments (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+     }
+    },
+    "receiver": {
+     "type": "B",
+     "id": "987654321",
+     "name": "Sample Buyer Co (fictional)",
+     "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+     }
+    },
+    "documentType": "I",
+    "documentTypeVersion": "1.0",
+    "dateTimeIssued": "2026-01-15T09:30:00Z",
+    "taxpayerActivityCode": "4101",
+    "invoiceLines": [
+     {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+       "rate": 5,
+       "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 1330,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 10830
+     },
+     {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+       "currencySold": "EGP",
+       "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+       {
+        "taxType": "T1",
+        "amount": 700.14,
+        "subType": "V009",
+        "rate": 14
+       }
+      ],
+      "total": 5701.14
+     }
+    ],
+    "totalDiscountAmount": 500,
+    "totalSalesAmount": 15001,
+    "netAmount": 14501,
+    "taxTotals": [
+     {
+      "taxType": "T1",
+      "amount": 2030.14
+     }
+    ],
+    "extraDiscountAmount": 0,
+    "totalAmount": 16531.14
+   }
+  ],
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "[0]$.internalID"
+   ],
+   [
+    "error",
+    "MISSING",
+    "[1]$.internalID"
+   ]
+  ]
+ },
+ {
+  "name": "scalar input",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": 5,
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$"
+   ]
+  ]
+ },
+ {
+  "name": "empty object",
+  "now": "2026-06-01T00:00:00Z",
+  "tolerance": "0.01",
+  "data": {},
+  "expected": [
+   [
+    "error",
+    "MISSING",
+    "$.documentType"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.documentTypeVersion"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.internalID"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.taxpayerActivityCode"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.dateTimeIssued"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.totalAmount"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.issuer"
+   ],
+   [
+    "error",
+    "MISSING",
+    "$.receiver"
+   ],
+   [
+    "error",
+    "NO_LINES",
+    "$.invoiceLines"
+   ]
+  ]
+ }
+]
