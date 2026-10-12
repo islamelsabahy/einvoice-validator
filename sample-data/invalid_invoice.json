@@ -1,0 +1,93 @@
+{
+  "issuer": {
+    "type": "B",
+    "id": "123456789",
+    "name": "Example Developments (fictional)",
+    "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10",
+      "branchID": "0"
+    }
+  },
+  "receiver": {
+    "type": "B",
+    "id": "987654321",
+    "name": "Sample Buyer Co (fictional)",
+    "address": {
+      "country": "EG",
+      "governate": "Cairo",
+      "regionCity": "Nasr City",
+      "street": "Example St",
+      "buildingNumber": "10"
+    }
+  },
+  "documentType": "I",
+  "documentTypeVersion": "1.0",
+  "dateTimeIssued": "2026-01-15 09:30",
+  "taxpayerActivityCode": "4101",
+  "internalID": "INV-2026-0002",
+  "invoiceLines": [
+    {
+      "description": "Service fee",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-1",
+      "unitType": "EA",
+      "quantity": 10,
+      "unitValue": {
+        "currencySold": "EGP",
+        "amountEGP": 1000
+      },
+      "salesTotal": 10000,
+      "discount": {
+        "rate": 5,
+        "amount": 500
+      },
+      "netTotal": 9500,
+      "taxableItems": [
+        {
+          "taxType": "T1",
+          "amount": 1330,
+          "subType": "V009",
+          "rate": 14
+        }
+      ],
+      "total": 10000
+    },
+    {
+      "description": "Maintenance",
+      "itemType": "EGS",
+      "itemCode": "EG-123456789-2",
+      "unitType": "EA",
+      "quantity": 2,
+      "unitValue": {
+        "currencySold": "EGP",
+        "amountEGP": 2500.5
+      },
+      "salesTotal": 5001,
+      "netTotal": 5001,
+      "taxableItems": [
+        {
+          "taxType": "T1",
+          "amount": 700.14,
+          "subType": "V009",
+          "rate": 14
+        }
+      ],
+      "total": 5701.14
+    }
+  ],
+  "totalDiscountAmount": 500,
+  "totalSalesAmount": 15001,
+  "netAmount": 14501,
+  "taxTotals": [
+    {
+      "taxType": "T1",
+      "amount": 2030.14
+    }
+  ],
+  "extraDiscountAmount": 0,
+  "totalAmount": 16000
+}
